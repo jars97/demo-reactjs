@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './Login.css';
 import TextField from '@material-ui/core/TextField';
 import { Checkbox } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,12 +9,8 @@ import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 
-
-function App() {
-
-  return (
-    <div className="App">
-      <div className="login">
+export const Login = ({ children }) => (
+    <div className="login">
         <span className="titulo">Inicio de sesión</span> 
         <span className="subtitulo">Accede a tu backoffice</span>
         <div className="inputs">
@@ -63,7 +59,4 @@ function App() {
       </div>
       
     </div>
-  );
-}
-
-export default App;
+)
