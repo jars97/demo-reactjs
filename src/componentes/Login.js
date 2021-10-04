@@ -16,7 +16,6 @@ export class Login extends Component{
   
   _handleClickShowPassword = (e) => {
     this.setState({ showPassword: !this.state.showPassword })
-    console.log(this.state.showPassword)
   }
 
 
