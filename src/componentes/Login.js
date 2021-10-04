@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import '../Login.css';
 import TextField from '@material-ui/core/TextField';
 import { Checkbox } from '@material-ui/core';
@@ -6,9 +6,26 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
 
-export const Login = () => (
-    <div className="login">
+export class Login extends Component{
+  state = {
+    showPassword: false
+  }
+  
+  _handleClickShowPassword = (e) => {
+    this.setState({ showPassword: !this.state.showPassword })
+    console.log(this.state.showPassword)
+  }
+
+
+  render(){
+   
+  
+    
+    return (
+      <div className="login">
         <span className="titulo">Inicio de sesión</span> 
         <span className="subtitulo">Accede a tu backoffice</span>
         <div className="inputs">
@@ -25,11 +42,15 @@ export const Login = () => (
               
               variant="outlined"
               label="Contraseña"
-              type="password"
+              type={this.state.showPassword ? 'text' : 'password'}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">
-                  <Visibility />
+                  <IconButton
+                    onClick={this._handleClickShowPassword}
+                  >
+                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
                 </InputAdornment>
                 )
             }}
@@ -55,5 +76,6 @@ export const Login = () => (
         <br></br>
         <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
     </div>
-      
-)
+    )
+  }
+}
