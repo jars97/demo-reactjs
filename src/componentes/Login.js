@@ -1,15 +1,13 @@
 import React from 'react';
-import './Login.css';
+import '../Login.css';
 import TextField from '@material-ui/core/TextField';
 import { Checkbox } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
-
-
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 
-export const Login = ({ children }) => (
+export const Login = () => (
     <div className="login">
         <span className="titulo">Inicio de sesión</span> 
         <span className="subtitulo">Accede a tu backoffice</span>
@@ -56,7 +54,6 @@ export const Login = ({ children }) => (
         </Button>
         <br></br>
         <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
-      </div>
-      
     </div>
+      
 )
