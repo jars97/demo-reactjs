@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 export class Login extends Component{
   state = {
     showPassword: false,
-    disableButton: false,
+    disableButton: true,
     email:"",
     password:""
   }
@@ -89,9 +89,9 @@ export class Login extends Component{
           <Button className="recuperar-clave" color="primary">Recuperar clave</Button>
         </div>
         <br></br>
-        {this.state.disableButton ? <Button variant="contained" color="primary" disabled>Iniciar sesion </Button>: <Button variant="contained" color="primary" >Iniciar sesion</Button>}
         
-          
+        
+        <Button variant="contained" color="primary" disabled={this.state.disableButton}>Iniciar sesion</Button>
         
         <br></br>
         <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
