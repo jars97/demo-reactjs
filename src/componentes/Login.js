@@ -41,7 +41,7 @@ function Login() {
         <div className="inputs">
           <TextField
               required
-              id="outlined-required"
+              id="email"
               label="Correo electrónico"
               value={email}
               variant="outlined"
@@ -50,7 +50,7 @@ function Login() {
 
           <TextField
               required
-              id="outlined-required"
+              id="password"
               variant="outlined"
               label="Contraseña"
               value={password}
