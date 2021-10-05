@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState }  from 'react'
 import '../Login.css';
 import TextField from '@material-ui/core/TextField';
 import { Checkbox } from '@material-ui/core';
@@ -9,36 +9,30 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 
-export class Login extends Component{
-  state = {
-    showPassword: false,
-    disableButton: true,
-    email:"",
-    password:""
+function Login() {
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [disableButton, setDisableButton] = useState(true);
+  const [email, setEmail] = useState("");
+
+  const _onChangeEmail = (e)=>{
+    setEmail(e.target.value)
+    var longitud = e.target.value.length
+    var long_pass =password.length
+    setDisableButton(longitud>0 && long_pass>0 ? false : true )  
+  }
+
+  const _onChangePassword = (e)=>{
+    setPassword( e.target.value )
+    var longitud = e.target.value.length
+    var long_email = email.length
+    setDisableButton(longitud>0 && long_email>0 ? false : true )  
   }
   
-  _handleClickShowPassword = (e) => {
-    this.setState({ showPassword: !this.state.showPassword })
+  const _handleClickShowPassword = (e) => {
+    setShowPassword(!showPassword )
   }
-
-  _onChangeEmail = (e)=>{
-    this.setState({ email: e.target.value })
-    var longitud = e.target.value.length
-    var long_pass = this.state.password.length
-    this.setState({ disableButton: longitud>0 && long_pass>0 ? false : true })  
-  }
-
-  _onChangePassword = (e)=>{
-    this.setState({ password: e.target.value })
-    var longitud = e.target.value.length
-    var long_email = this.state.email.length
-    this.setState({ disableButton: longitud>0 && long_email>0 ? false : true })  
-  }
-
-
-  render(){
-   
-  
     
     return (
       <div className="login">
@@ -49,9 +43,9 @@ export class Login extends Component{
               required
               id="outlined-required"
               label="Correo electrónico"
-              value={this.state.email}
+              value={email}
               variant="outlined"
-              onChange={this._onChangeEmail}
+              onChange={_onChangeEmail}
           />
 
           <TextField
@@ -59,16 +53,16 @@ export class Login extends Component{
               id="outlined-required"
               variant="outlined"
               label="Contraseña"
-              value={this.state.password}
-              type={this.state.showPassword ? 'text' : 'password'}
-              onChange={this._onChangePassword}
+              value={password}
+              type={showPassword ? 'text' : 'password'}
+              onChange={_onChangePassword}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="start">
                   <IconButton
-                    onClick={this._handleClickShowPassword}
+                  onClick={_handleClickShowPassword}
                   >
-                  {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
                 )
@@ -91,11 +85,12 @@ export class Login extends Component{
         <br></br>
         
         
-        <Button variant="contained" color="primary" disabled={this.state.disableButton}>Iniciar sesion</Button>
+        <Button variant="contained" color="primary" disabled={disableButton}>Iniciar sesion</Button>
+      
         
         <br></br>
         <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
     </div>
     )
-  }
 }
+export default Login;
