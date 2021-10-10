@@ -1,4 +1,5 @@
 import React, { useState }  from 'react'
+import { useForm } from "react-hook-form";
 import '../Login.css';
 import TextField from '@material-ui/core/TextField';
 import { Checkbox } from '@material-ui/core';
@@ -9,88 +10,74 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 
-function Login() {
-
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [disableButton, setDisableButton] = useState(true);
-  const [email, setEmail] = useState("");
+  const { register, formState: { errors }, handleSubmit } = useForm();
 
-  const _onChangeEmail = (e)=>{
-    setEmail(e.target.value)
-    var longitud = e.target.value.length
-    var long_pass =password.length
-    setDisableButton(longitud>0 && long_pass>0 ? false : true )  
-  }
-
-  const _onChangePassword = (e)=>{
-    setPassword( e.target.value )
-    var longitud = e.target.value.length
-    var long_email = email.length
-    setDisableButton(longitud>0 && long_email>0 ? false : true )  
-  }
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   
   const _handleClickShowPassword = (e) => {
     setShowPassword(!showPassword )
   }
     
     return (
-      <div className="login">
-        <span className="titulo">Inicio de sesión</span> 
-        <span className="subtitulo">Accede a tu backoffice</span>
-        <div className="inputs">
-          <TextField
-              required
-              id="email"
-              label="Correo electrónico"
-              value={email}
-              variant="outlined"
-              onChange={_onChangeEmail}
-          />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="login">
+          <span className="titulo">Inicio de sesión</span> 
+          <span className="subtitulo">Accede a tu backoffice</span>
+          <div className="inputs">
+            <TextField
+                name="email"
+                
+                id="email"
+                label="Correo electrónico"
+                variant="outlined"
+                {...register("email", { required: true})}
+            />
+            {errors.email?.type === 'required' && "email es obligatorio"}
 
-          <TextField
-              required
-              id="password"
-              variant="outlined"
-              label="Contraseña"
-              value={password}
-              type={showPassword ? 'text' : 'password'}
-              onChange={_onChangePassword}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <IconButton
-                  onClick={_handleClickShowPassword}
-                  >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-                )
-            }}
-          />
-        </div>
-        
-        <div className="claves">
-          <FormControlLabel
-            control={
-              <Checkbox
-              defaultChecked
-                color="primary"
-              />
-            }
-            label="Recuérdame"
-          />
-          <Button className="recuperar-clave" color="primary">Recuperar clave</Button>
-        </div>
-        <br></br>
-        
-        
-        <Button variant="contained" color="primary" disabled={disableButton}>Iniciar sesion</Button>
-      
-        
-        <br></br>
-        <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
-    </div>
+            <TextField
+                name="password"
+                
+                id="password"
+                variant="outlined"
+                label="Contraseña"
+                type={showPassword ? 'text' : 'password'}
+                {...register("password", { required: true})}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                    onClick={_handleClickShowPassword}
+                    >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                  )
+              }}
+            />
+            {errors.password?.type === 'required' && "password es obligatorio"}
+          </div>
+          
+          <div className="claves">
+            <FormControlLabel
+              control={
+                <Checkbox
+                defaultChecked
+                  color="primary"
+                />
+              }
+              label="Recuérdame"
+            />
+            <Button className="recuperar-clave" color="primary">Recuperar clave</Button>
+          </div>
+          <br></br>
+          <Button type="submit" variant="contained" color="primary">Iniciar sesion</Button>
+          <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
+      </div>
+    </form>
     )
 }
 export default Login;
