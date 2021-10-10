@@ -109,11 +109,11 @@ const BancosList = () => {
     const classes = useStyles1();
     const [page, setPage] = useState(0);  
     const [data, setData] = useState([]);   
-    const [rowsPerPage, setRowsPerPage] = useState(10); 
+    const [rowsPerPage, setRowsPerPage] = useState(5); 
     const [totalItems, setTotalItems] = useState(0); 
 
     useEffect(() => {
-        //console.log('usefect')
+        console.log('usefect')
         BancosService.getBancos(page+1,rowsPerPage)
         .then((result) => {
             setData(result.data.data); 
@@ -121,7 +121,13 @@ const BancosList = () => {
         })
         .catch((e)=>{
             console.log(e)
-        })
+        }) 
+       /*  async function getBancos() {
+          const result = await BancosService.getBancos(page+1,rowsPerPage)
+          setData(result.data.data); 
+          setTotalItems(result.data.totalItems)
+        }  
+        getBancos()*/
     }, [page,rowsPerPage]);
 
     const handleChangePage = (event, newPage) => {  
