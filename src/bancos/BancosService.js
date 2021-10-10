@@ -1,4 +1,4 @@
-import client from "./AxiosClient";
+import client from "../axios/AxiosClient";
 
 const rest = '/bancos'
 

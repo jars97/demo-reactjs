@@ -16,7 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import PropTypes from 'prop-types';
-import TableHeader from './TableHeader';
+import TableHeader from '../componentes/TableHeader';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -24,7 +24,7 @@ const useStyles1 = makeStyles((theme) => ({
     root: {
         width: '95%',  
         flexShrink: 0,
-        marginLeft: theme.spacing(2.5),
+        marginLeft: theme.spacing(2.0),
     },
     container: { 
         maxHeight: 440,      
