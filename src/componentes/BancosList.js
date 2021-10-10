@@ -17,6 +17,8 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import PropTypes from 'prop-types';
 import TableHeader from './TableHeader';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -111,7 +113,7 @@ const BancosList = () => {
     const [totalItems, setTotalItems] = useState(0); 
 
     useEffect(() => {
-        console.log('usefect')
+        //console.log('usefect')
         BancosService.getBancos(page+1,rowsPerPage)
         .then((result) => {
             setData(result.data.data); 
@@ -131,7 +133,7 @@ const BancosList = () => {
         setPage(0);
     };
 
-    const headers=['Id','Descripción'];
+    const headers=['Id','Descripción','Opciones'];
    
 
     return(
@@ -149,6 +151,14 @@ const BancosList = () => {
                                 <StyledTableRow key={row.id}>
                                     <TableCell>{row.id}</TableCell>
                                     <TableCell>{row.name}</TableCell>
+                                    <TableCell>
+                                      <IconButton size="small" color="primary" aria-label="Eliminar">
+                                        <EditIcon/>
+                                      </IconButton>
+                                      <IconButton size="small" color="secondary" aria-label="Eliminar">
+                                        <DeleteIcon />
+                                      </IconButton>
+                                    </TableCell>
                                 </StyledTableRow>
                             )
                         })}
