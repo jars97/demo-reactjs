@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
-        width: '100%',  
+        width: '95%',  
         flexShrink: 0,
         marginLeft: theme.spacing(2.5),
     },
@@ -31,7 +31,7 @@ const useStyles1 = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     footer:{
-        width: '100%'
+        width: '25%',    
     }
 }));
 
@@ -140,6 +140,7 @@ const BancosList = () => {
         setPage(0);
     };
 
+    const headers=['Id','Descripción'];
    
 
     return(
@@ -152,8 +153,11 @@ const BancosList = () => {
                 <Table stickyHeader aria-label="sticky table" size="small">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell className={classes.columnHeader}>Id</StyledTableCell>
-                            <StyledTableCell className={classes.columnHeader}>Descripción</StyledTableCell>
+                            {headers.map(row => {
+                                return(
+                                    <StyledTableCell className={classes.columnHeader}>{row}</StyledTableCell>
+                                )
+                            })}
                         </TableRow>
                     </TableHead>
                     <TableBody>

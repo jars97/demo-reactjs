@@ -18,7 +18,8 @@ const useStyles = makeStyles({
     formulario:{
         display:'flex',
         flexDirection:'row',
-        padding:10
+        padding:10,
+        gap:5
 
     }
 });
