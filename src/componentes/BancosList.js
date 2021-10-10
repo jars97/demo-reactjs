@@ -149,8 +149,7 @@ const BancosList = () => {
             <BancosAdd></BancosAdd>
             
             <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table" size="small"
-                >
+                <Table stickyHeader aria-label="sticky table" size="small">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell className={classes.columnHeader}>Id</StyledTableCell>
