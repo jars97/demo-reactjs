@@ -116,7 +116,7 @@ const BancosList = () => {
     const classes = useStyles1();
     const [page, setPage] = useState(0);  
     const [data, setData] = useState([]);   
-    const [rowsPerPage, setRowsPerPage] = useState(5); 
+    const [rowsPerPage, setRowsPerPage] = useState(10); 
     const [totalItems, setTotalItems] = useState(0); 
 
     useEffect(() => {
