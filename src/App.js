@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import Login from  './componentes/Login'
-
+//import Login from  './componentes/Login'
+import BancosList from  './componentes/BancosList'
 
 
 function App() {
 
   return (
     <div className="App">
-      <Login></Login>
+      <BancosList></BancosList>
     </div>
   );
 }

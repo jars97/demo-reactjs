@@ -4,3 +4,9 @@
   align-items: center;
 }
 
+.inlineForm{
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+

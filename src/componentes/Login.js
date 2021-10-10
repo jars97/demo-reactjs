@@ -30,17 +30,17 @@ const Login = () => {
           <div className="inputs">
             <TextField
                 name="email"
-                required
+                
                 id="email"
                 label="Correo electrónico"
                 variant="outlined"
                 {...register("email", { required: true})}
             />
-            {errors.firstName?.type === 'required' && "email es obligatorio"}
+            {errors.email?.type === 'required' && "email es obligatorio"}
 
             <TextField
                 name="password"
-                required
+                
                 id="password"
                 variant="outlined"
                 label="Contraseña"
@@ -74,12 +74,7 @@ const Login = () => {
             <Button className="recuperar-clave" color="primary">Recuperar clave</Button>
           </div>
           <br></br>
-          
-          
           <Button type="submit" variant="contained" color="primary">Iniciar sesion</Button>
-        
-          
-          <br></br>
           <span className="nueva-cuenta">¿Eres un nuevo usuario? <a href="./home" className="solicita"> Solicita una cuenta</a></span>
       </div>
     </form>
