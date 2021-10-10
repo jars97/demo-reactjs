@@ -4,7 +4,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';  
 import TableCell from '@material-ui/core/TableCell';  
 import TableContainer from '@material-ui/core/TableContainer';  
-import TableHead from '@material-ui/core/TableHead';  
 import TablePagination from '@material-ui/core/TablePagination';  
 import TableRow from '@material-ui/core/TableRow';     
 import { useState, useEffect } from 'react' 
@@ -17,6 +16,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import PropTypes from 'prop-types';
+import TableHeader from './TableHeader';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -31,7 +31,7 @@ const useStyles1 = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     footer:{
-        width: '25%',    
+        width: '100%',    
     }
 }));
 
@@ -102,15 +102,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   }))(TableRow);
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: 'red',
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
 
 const BancosList = () => {
     const classes = useStyles1();
@@ -151,15 +142,7 @@ const BancosList = () => {
             
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">
-                    <TableHead>
-                        <TableRow>
-                            {headers.map(row => {
-                                return(
-                                    <StyledTableCell className={classes.columnHeader}>{row}</StyledTableCell>
-                                )
-                            })}
-                        </TableRow>
-                    </TableHead>
+                    <TableHeader headers={headers}></TableHeader>
                     <TableBody>
                         {data.map(row => {
                             return(
