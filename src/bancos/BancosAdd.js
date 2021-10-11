@@ -16,36 +16,33 @@ const useStyles = makeStyles({
     }
 });
 
-const BancosAdd = ({sucess,setSuccess}) =>{
+const BancosAdd = ({successAdd,setSuccessAdd}) =>{
     const { register, formState: { errors }, handleSubmit,reset } = useForm();
     const classes = useStyles();
     
     const onSubmit = (data) => {
-        console.log(data);
         BancosService.addBanco(data)
         .then((result) => {
-            //setSuccess(true)
+            setSuccessAdd(true)
             reset(result);
         })
         .catch((e)=>{
+            setSuccessAdd(false)
             console.log(e)
         })
     };
 
     return (
         <form className={classes.formulario} onSubmit={handleSubmit(onSubmit)}>
-           
-                <TextField
-                    name="name"
-                    id="name"
-                    label="Descripcion"
-                    variant="outlined"
-                    {...register("name", { required: true})}
-                />
-                {errors.descripcion?.type === 'required' && "Descripcion es obligatorio"}
-                <Button type="submit" variant="contained" color="primary">Agregar</Button>
-           
-            
+            <TextField
+                name="name"
+                id="name"
+                label="Descripcion"
+                variant="outlined"
+                {...register("name", { required: true})}
+            />
+            {errors.descripcion?.type === 'required' && "Descripcion es obligatorio"}
+            <Button type="submit" variant="contained" color="primary">Agregar</Button>
         </form>
       )
 

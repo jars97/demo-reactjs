@@ -124,33 +124,44 @@ const BancosList = () => {
     const [id, setId] = useState(-1);
     const [openAlert, setOpenAlert] = useState(false);
     const [update,setUpdate] = useState(false)
+    const [successAdd,setSuccessAdd] = useState(false)
 
 
     const handleCloseAlert = (event, reason) => {
         setSuccess(false);
     };
 
-
-    useEffect(() => {
-      console.log('getbancos')
-        BancosService.getBancos(page+1,rowsPerPage)
-        .then((result) => {
-            setData(result.data.data); 
-            setTotalItems(result.data.totalItems)
-        })
-        .catch((e)=>{
-            console.log(e)
-        }) 
-       /*  async function getBancos() {
-          const result = await BancosService.getBancos(page+1,rowsPerPage)
+    const getData  = async () => {
+      console.log('get data')
+      const result = await BancosService.getBancos(page+1,rowsPerPage)
+      setData(result.data.data); 
+      setTotalItems(result.data.totalItems)
+      /* console.log('get data')
+      BancosService.getBancos(page+1,rowsPerPage)
+      .then((result) => {
           setData(result.data.data); 
           setTotalItems(result.data.totalItems)
-        }  
-        getBancos()*/
+      })
+      .catch((e)=>{
+          console.log(e)
+      })  */
+    }
+
+
+    useEffect(() => {
+      getData()
     }, [page,rowsPerPage]);
 
     useEffect(() => {
-      console.log(success)
+      if (successAdd){
+        getData()
+        setSuccessAdd(false)
+      }
+      
+    }, [successAdd]);
+
+    useEffect(() => {
+      console.log('success '+success)
       if (success){
         let idx = data.findIndex(x => x.id ===id);
         data.splice(idx,1);
@@ -188,7 +199,7 @@ const BancosList = () => {
         <div className={classes.root}>
           <Paper >
             <h1>Listado de los Bancos</h1>
-            <BancosAdd success={success} setSuccess={setSuccess}></BancosAdd>
+            <BancosAdd successAdd={successAdd} setSuccessAdd={setSuccessAdd}></BancosAdd>
             
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">
