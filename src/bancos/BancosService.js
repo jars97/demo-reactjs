@@ -11,8 +11,13 @@ const addBanco = (data) =>{
     return client.post(rest+'/',data);
 }
 
+
+const deleteBanco = (id) =>{
+    return client.delete(rest+'/'+id);
+}
+
 const BancosService = {
-    getBancos,addBanco
+    getBancos,addBanco,deleteBanco
 }
 
 export default BancosService;

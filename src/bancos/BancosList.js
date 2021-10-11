@@ -19,6 +19,9 @@ import PropTypes from 'prop-types';
 import TableHeader from '../componentes/TableHeader';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import RemoveDialog from '../componentes/RemoveDialog';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -36,6 +39,10 @@ const useStyles1 = makeStyles((theme) => ({
         width: '100%',    
     }
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function TablePaginationActions(props) {
     const classes = useStyles1();
@@ -111,9 +118,21 @@ const BancosList = () => {
     const [data, setData] = useState([]);   
     const [rowsPerPage, setRowsPerPage] = useState(5); 
     const [totalItems, setTotalItems] = useState(0); 
+    
+    const [open, setOpen] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [id, setId] = useState(-1);
+    const [openAlert, setOpenAlert] = useState(false);
+    const [update,setUpdate] = useState(false)
+
+
+    const handleCloseAlert = (event, reason) => {
+        setSuccess(false);
+    };
+
 
     useEffect(() => {
-        console.log('usefect')
+      console.log('getbancos')
         BancosService.getBancos(page+1,rowsPerPage)
         .then((result) => {
             setData(result.data.data); 
@@ -130,6 +149,24 @@ const BancosList = () => {
         getBancos()*/
     }, [page,rowsPerPage]);
 
+    useEffect(() => {
+      console.log(success)
+      if (success){
+        let idx = data.findIndex(x => x.id ===id);
+        data.splice(idx,1);
+        console.log(idx);
+      }
+      
+      /* if (success) {
+        if (data.length===1){
+          setPage(page-1)
+        }else{
+          setPage(page)
+        }
+        setUpdate(true);
+      } */
+    }, [success]);
+
     const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
     }; 
@@ -139,14 +176,19 @@ const BancosList = () => {
         setPage(0);
     };
 
+    const handleRemove = (id) =>{
+      setOpen(true)
+      setId(id)
+    };
+
     const headers=['Id','Descripción','Opciones'];
    
 
     return(
-        
-        <Paper className={classes.root}>
+        <div className={classes.root}>
+          <Paper >
             <h1>Listado de los Bancos</h1>
-            <BancosAdd></BancosAdd>
+            <BancosAdd success={success} setSuccess={setSuccess}></BancosAdd>
             
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">
@@ -158,10 +200,10 @@ const BancosList = () => {
                                     <TableCell>{row.id}</TableCell>
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell>
-                                      <IconButton size="small" color="primary" aria-label="Eliminar">
+                                      <IconButton size="small" color="primary" aria-label="Editar"  >
                                         <EditIcon/>
                                       </IconButton>
-                                      <IconButton size="small" color="secondary" aria-label="Eliminar">
+                                      <IconButton size="small" color="secondary" aria-label="Eliminar" onClick={() => handleRemove(row.id)}>
                                         <DeleteIcon />
                                       </IconButton>
                                     </TableCell>
@@ -182,7 +224,15 @@ const BancosList = () => {
                 onRowsPerPageChange={handleChangeRowsPerPage} 
                 ActionsComponent={TablePaginationActions}
             />
-        </Paper>
+            <RemoveDialog open={open} setOpen={setOpen} id={id} success={success} setSuccess={setSuccess}></RemoveDialog>
+          </Paper>
+          <Snackbar open={success} autoHideDuration={2000} onClose={handleCloseAlert}>
+              <Alert onClose={handleCloseAlert} severity="success">
+              Operación extiosa!
+              </Alert>
+          </Snackbar>
+        </div>
+        
     )
     
 } 

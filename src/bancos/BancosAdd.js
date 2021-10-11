@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     }
 });
 
-const BancosAdd = () =>{
+const BancosAdd = ({sucess,setSuccess}) =>{
     const { register, formState: { errors }, handleSubmit,reset } = useForm();
     const classes = useStyles();
     
@@ -24,6 +24,7 @@ const BancosAdd = () =>{
         console.log(data);
         BancosService.addBanco(data)
         .then((result) => {
+            //setSuccess(true)
             reset(result);
         })
         .catch((e)=>{
