@@ -121,7 +121,7 @@ const BancosList = () => {
     const [open, setOpen] = useState(false);
     const [success, setSuccess] = useState(false);
     const [id, setId] = useState(-1);
-    const [successAdd,setSuccessAdd] = useState(false)
+    
 
 
     const handleCloseAlert = (event, reason) => {
@@ -140,15 +140,6 @@ const BancosList = () => {
       getData()
     }, [page,rowsPerPage]);
 
-    useEffect(() => {
-      console.log('successAdd')
-      if (successAdd){
-        setSuccess(true)
-        getData()
-        setSuccessAdd(false)
-      } 
-    }, [successAdd]);
-
     const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
     }; 
@@ -165,12 +156,17 @@ const BancosList = () => {
 
     const headers=['Id','Descripción','Opciones'];
    
+    const addRecord = async (val) =>{
+        const result = await BancosService.addBanco(val)
+        setSuccess(true)
+        getData()
+    }
 
     return(
         <div className={classes.root}>
           <Paper >
             <h1>Listado de los Bancos</h1>
-            <BancosAdd successAdd={successAdd} setSuccessAdd={setSuccessAdd}></BancosAdd>
+            <BancosAdd addRecord={addRecord}></BancosAdd>
             
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">

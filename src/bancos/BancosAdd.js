@@ -4,7 +4,6 @@ import '../App.css';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles'; 
-import BancosService from './BancosService';
 
 const useStyles = makeStyles({  
     formulario:{
@@ -16,20 +15,13 @@ const useStyles = makeStyles({
     }
 });
 
-const BancosAdd = ({successAdd,setSuccessAdd}) =>{
+const BancosAdd = (props) =>{
     const { register, formState: { errors }, handleSubmit,reset } = useForm();
     const classes = useStyles();
     
     const onSubmit = (data) => {
-        BancosService.addBanco(data)
-        .then((result) => {
-            setSuccessAdd(true)
-            reset(result);
-        })
-        .catch((e)=>{
-            setSuccessAdd(false)
-            console.log(e)
-        })
+        props.addRecord(data)
+        reset();
     };
 
     return (
