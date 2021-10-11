@@ -128,20 +128,11 @@ const BancosList = () => {
         setSuccess(false);
     };
 
-    const getData  = async () => {
+    const getData = async () =>  {
       console.log('get data')
       const result = await BancosService.getBancos(page+1,rowsPerPage)
       setData(result.data.data); 
       setTotalItems(result.data.totalItems)
-      /* console.log('get data')
-      BancosService.getBancos(page+1,rowsPerPage)
-      .then((result) => {
-          setData(result.data.data); 
-          setTotalItems(result.data.totalItems)
-      })
-      .catch((e)=>{
-          console.log(e)
-      })  */
     }
 
 
