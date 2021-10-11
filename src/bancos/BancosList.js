@@ -141,13 +141,13 @@ const BancosList = () => {
     }, [page,rowsPerPage]);
 
     useEffect(() => {
+      console.log('successAdd')
       if (successAdd){
         setSuccess(true)
         getData()
         setSuccessAdd(false)
-      }
-      
-    }, [successAdd]);
+      } 
+    }, []);
 
     const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
