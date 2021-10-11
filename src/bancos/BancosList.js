@@ -147,7 +147,7 @@ const BancosList = () => {
         getData()
         setSuccessAdd(false)
       } 
-    }, []);
+    }, [successAdd]);
 
     const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
