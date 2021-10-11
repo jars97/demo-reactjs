@@ -118,12 +118,9 @@ const BancosList = () => {
     const [data, setData] = useState([]);   
     const [rowsPerPage, setRowsPerPage] = useState(5); 
     const [totalItems, setTotalItems] = useState(0); 
-    
     const [open, setOpen] = useState(false);
     const [success, setSuccess] = useState(false);
     const [id, setId] = useState(-1);
-    const [openAlert, setOpenAlert] = useState(false);
-    const [update,setUpdate] = useState(false)
     const [successAdd,setSuccessAdd] = useState(false)
 
 
@@ -154,29 +151,12 @@ const BancosList = () => {
 
     useEffect(() => {
       if (successAdd){
+        setSuccess(true)
         getData()
         setSuccessAdd(false)
       }
       
     }, [successAdd]);
-
-    useEffect(() => {
-      console.log('success '+success)
-      if (success){
-        let idx = data.findIndex(x => x.id ===id);
-        data.splice(idx,1);
-        console.log(idx);
-      }
-      
-      /* if (success) {
-        if (data.length===1){
-          setPage(page-1)
-        }else{
-          setPage(page)
-        }
-        setUpdate(true);
-      } */
-    }, [success]);
 
     const handleChangePage = (event, newPage) => {  
         setPage(newPage);  
