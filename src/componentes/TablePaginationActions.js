@@ -7,17 +7,6 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import PropTypes from 'prop-types';
 
 const useStyles1 = makeStyles((theme) => ({
-    root: {
-        width: '95%',  
-        flexShrink: 0,
-        marginLeft: theme.spacing(2.0),
-    },
-    container: { 
-        maxHeight: 440,      
-      }, 
-    columnHeader:{
-        fontWeight: 'bold'
-    },
     footer:{
         width: '100%',    
     }
