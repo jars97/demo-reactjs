@@ -7,31 +7,23 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button'; 
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import BancosService from '../bancos/BancosService';
 
-
-const RemoveDialog = ({open, setOpen,id,sucess,setSuccess}) => {
+const RemoveDialog = (props) => {
     
     const handleClose = () => {
-        setOpen(false);
+        props.setOpen(false)
     };
 
     
-    const handleYes= () => {
-        BancosService.deleteBanco(id) 
-        .then((result) => {
-            setSuccess(true)
-        })
-        .catch((e)=>{
-            console.log(e)
-        })
-        setOpen(false);
+    const handleYes = () => {
+        props.removeRecord()
+        props.setOpen(false);
     };
 
     return (
         
         <Dialog
-            open={open}
+            open={props.open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"

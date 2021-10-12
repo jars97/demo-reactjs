@@ -129,7 +129,6 @@ const BancosList = () => {
     };
 
     const getData = async () =>  {
-      console.log('get data')
       const result = await BancosService.getBancos(page+1,rowsPerPage)
       setData(result.data.data); 
       setTotalItems(result.data.totalItems)
@@ -157,9 +156,19 @@ const BancosList = () => {
     const headers=['Id','Descripción','Opciones'];
    
     const addRecord = async (val) =>{
-        const result = await BancosService.addBanco(val)
+        await BancosService.addBanco(val)
         setSuccess(true)
         getData()
+    }
+
+    const removeRecord = async () =>{
+      await BancosService.deleteBanco(id)
+      setSuccess(true)
+      if (data.length===1){
+        setPage(page-1)
+      }else{
+        getData()
+      } 
     }
 
     return(
@@ -202,7 +211,7 @@ const BancosList = () => {
                 onRowsPerPageChange={handleChangeRowsPerPage} 
                 ActionsComponent={TablePaginationActions}
             />
-            <RemoveDialog open={open} setOpen={setOpen} id={id} success={success} setSuccess={setSuccess}></RemoveDialog>
+            <RemoveDialog open={open} setOpen={setOpen} removeRecord={removeRecord}></RemoveDialog>
           </Paper>
           <Snackbar open={success} autoHideDuration={2000} onClose={handleCloseAlert}>
               <Alert onClose={handleCloseAlert} severity="success">
