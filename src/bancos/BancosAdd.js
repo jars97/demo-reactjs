@@ -4,6 +4,7 @@ import '../App.css';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles'; 
+import { FormatAlignCenter } from '@material-ui/icons';
 
 const useStyles = makeStyles({  
     formulario:{
@@ -12,6 +13,10 @@ const useStyles = makeStyles({
         padding:10,
         gap:5
 
+    },
+    mensaje:{
+        display: 'flex',
+        alignItems: 'center'
     }
 });
 
@@ -21,7 +26,7 @@ const BancosAdd = (props) =>{
     
     const onSubmit = (data) => {
         props.addRecord(data)
-        reset();
+        reset(null);
     };
 
     return (
@@ -33,8 +38,9 @@ const BancosAdd = (props) =>{
                 variant="outlined"
                 {...register("name", { required: true})}
             />
-            {errors.descripcion?.type === 'required' && "Descripcion es obligatorio"}
+            
             <Button type="submit" variant="contained" color="primary">Agregar</Button>
+            <span className={classes.mensaje}>{errors.name?.type === 'required' && "Descripcion es obligatorio"}</span>
         </form>
       )
 
