@@ -1,4 +1,5 @@
 
+
 import Paper from '@material-ui/core/Paper';  
 import Table from '@material-ui/core/Table';  
 import TableBody from '@material-ui/core/TableBody';  
@@ -8,16 +9,16 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';     
 import { useState, useEffect } from 'react' 
 import { withStyles,makeStyles } from '@material-ui/core/styles'; 
-import BancosService from './BancosService';
-import BancosAdd from './BancosAdd';
 import IconButton from '@material-ui/core/IconButton';
 import TableHeader from '../componentes/TableHeader';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import RemoveDialog from '../componentes/RemoveDialog';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import CustomTablePaginationActions from '../componentes/TablePaginationActions';  
+
+import FirebaseService from './FirebaseService';
+import AddRecord from './AddRecord'
+import '../index.css'
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -36,10 +37,6 @@ const useStyles1 = makeStyles((theme) => ({
     }
 }));
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-} 
-
 const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
@@ -48,8 +45,11 @@ const StyledTableRow = withStyles((theme) => ({
     },
   }))(TableRow);
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+} 
 
-const BancosList = () => {
+const FirebaseList = () => {
     const classes = useStyles1();
     const [page, setPage] = useState(0);  
     const [data, setData] = useState([]);   
@@ -57,77 +57,89 @@ const BancosList = () => {
     const [totalItems, setTotalItems] = useState(0); 
     const [open, setOpen] = useState(false);
     const [success, setSuccess] = useState(false);
-    const [id, setId] = useState(-1);
-    
-
-
-    const handleCloseAlert = (event, reason) => {
-        setSuccess(false);
-    };
-
-    const readData = async () =>  {
-      const result = await BancosService.getBancos(page+1,rowsPerPage)
-      setData(result.data.data); 
-      setTotalItems(result.data.totalItems)
-    }
-
+    const [id, setId] = useState({});
 
     useEffect(() => {
-      readData()
-    }, [page,rowsPerPage]);
+        getFirst()
+    }, [rowsPerPage,page]); 
 
-    const handleChangePage = (event, newPage) => {  
+    const getFirst = async () =>  {
+        const totRecords = await FirebaseService.getAll()
+        const result = await FirebaseService.getFirst(rowsPerPage)
+        setData(fillDataArray(result)); 
+        setTotalItems(totRecords.size)
+    } 
+
+    const fillDataArray = (data)=>{
+        return data.docs.map((doc)=> ({...doc.data(),id:doc.id}))
+    }
+
+    const handleChangePage  = (event, newPage) => {  
+        const last = data[data.length-1];
+        const first = data[0];
+        newPage>page ? nextPage(last) : previusPage(first);
         setPage(newPage);  
     }; 
+
+    const nextPage = async (item) =>{
+        const result= await FirebaseService.getNextPage(rowsPerPage,item)
+        setData(fillDataArray(result)); 
+    }
+
+    const previusPage = async (item) =>{
+        const result= await FirebaseService.getPreviusPage(rowsPerPage,item)
+        setData(fillDataArray(result)); 
+    }
 
     const handleChangeRowsPerPage = event => { 
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
 
-    const handleRemove = (id) =>{
-      setOpen(true)
-      setId(id)
+    const addRecord = (val) =>{
+        FirebaseService.addBanco(val)
+        setSuccess(true) 
+        getFirst()       
+    }
+
+    const handleCloseAlert = (event, reason) => {
+        setSuccess(false);
     };
 
-    const headers=['Id','Descripción','Opciones'];
-   
-    const addRecord = async (val) =>{
-        await BancosService.addBanco(val)
+    const handleRemove = (data) =>{
+        console.log(data)
+        setOpen(true)
+        setId(data)
+    };
+
+    const removeRecord = () =>{
+        FirebaseService.deleteBanco(id)
         setSuccess(true)
-        readData()
+        if (data.length===1){
+            setPage(page-1)
+        }else{
+            getFirst()
+        } 
     }
 
-    const removeRecord = async () =>{
-      await BancosService.deleteBanco(id)
-      setSuccess(true)
-      if (data.length===1){
-        setPage(page-1)
-      }else{
-        readData()
-      } 
-    }
-
+    const headers=['Codigo','Descripción','Opciones'];
+      
     return(
         <div className={classes.root}>
           <Paper >
             <h1>Listado de los Bancos</h1>
-            <BancosAdd addRecord={addRecord}></BancosAdd>
-            
+            <AddRecord addRecord={addRecord}></AddRecord>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">
                     <TableHeader headers={headers}></TableHeader>
                     <TableBody>
-                        {data.map(row => {
+                        {data && data.map(row => {
                             return(
-                                <StyledTableRow key={row.id}>
-                                    <TableCell>{row.id}</TableCell>
+                                <StyledTableRow key={row.codigo}>
+                                    <TableCell>{row.codigo}</TableCell>
                                     <TableCell>{row.name}</TableCell>
-                                    <TableCell>
-                                      <IconButton size="small" color="primary" aria-label="Editar"  >
-                                        <EditIcon/>
-                                      </IconButton>
-                                      <IconButton size="small" color="secondary" aria-label="Eliminar" onClick={() => handleRemove(row.id)}>
+                                    <TableCell >
+                                      <IconButton size="small" color="secondary" aria-label="Eliminar" onClick={() => handleRemove(row)}>
                                         <DeleteIcon />
                                       </IconButton>
                                     </TableCell>
@@ -139,14 +151,14 @@ const BancosList = () => {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[5, 10, 15]}  
+                rowsPerPageOptions={[2,5, 10, 15]}  
                 component="div" 
                 count={totalItems}
                 rowsPerPage={rowsPerPage} 
                 page={page}
                 onPageChange={handleChangePage} 
                 onRowsPerPageChange={handleChangeRowsPerPage} 
-                ActionsComponent={CustomTablePaginationActions}
+                
             />
             <RemoveDialog open={open} setOpen={setOpen} removeRecord={removeRecord}></RemoveDialog>
           </Paper>
@@ -160,4 +172,4 @@ const BancosList = () => {
     )
     
 } 
-export default BancosList;
+export default FirebaseList;
