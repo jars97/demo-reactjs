@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     }
 });
 
-const BancosAdd = (props) =>{
+const AddRecord = (props) =>{
     const { register, formState: { errors }, handleSubmit,reset } = useForm();
     const classes = useStyles();
     
@@ -31,6 +31,13 @@ const BancosAdd = (props) =>{
     return (
         <form className={classes.formulario} onSubmit={handleSubmit(onSubmit)}>
             <TextField
+                name="codigo"
+                id="codigo"
+                label="codigo"
+                variant="outlined"
+                {...register("codigo", { required: true})}
+            />
+            <TextField
                 name="name"
                 id="name"
                 label="Descripcion"
@@ -39,9 +46,10 @@ const BancosAdd = (props) =>{
             />
             
             <Button type="submit" variant="contained" color="primary">Agregar</Button>
-            <span className={classes.mensaje}>{errors.name?.type === 'required' && "Descripcion es obligatorio"}</span>
+            <span className={classes.mensaje}>{errors.name?.type === 'required' && "La descripcion es obligatoria"}</span>
+            <span className={classes.mensaje}>{errors.codigo?.type === 'required' && "El codigo es obligatorio"}</span>
         </form>
       )
 
 }
-export default BancosAdd;
+export default AddRecord;
