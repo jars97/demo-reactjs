@@ -69,7 +69,7 @@ const FirebaseList = () => {
         }  
        getFirst()
        
-    }, [rowsPerPage,page,update]); 
+    }, [rowsPerPage,update]); 
 
     const fillDataArray = (data)=>{
         return data.docs.map((doc)=> ({...doc.data(),id:doc.id}))
