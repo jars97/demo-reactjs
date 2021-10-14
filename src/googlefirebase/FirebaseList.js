@@ -58,17 +58,18 @@ const FirebaseList = () => {
     const [open, setOpen] = useState(false);
     const [success, setSuccess] = useState(false);
     const [id, setId] = useState({});
+    const [update,setUpdate]=useState(false)
 
     useEffect(() => {
-        getFirst()
-    }, [rowsPerPage,page]); 
-
-    const getFirst = async () =>  {
-        const totRecords = await FirebaseService.getAll()
-        const result = await FirebaseService.getFirst(rowsPerPage)
-        setData(fillDataArray(result)); 
-        setTotalItems(totRecords.size)
-    } 
+        const getFirst = async () =>  {
+            const totRecords = await FirebaseService.getAll()
+            const result = await FirebaseService.getFirst(rowsPerPage)
+            setData(fillDataArray(result)); 
+            setTotalItems(totRecords.size)
+        }  
+       getFirst()
+       
+    }, [rowsPerPage,page,update]); 
 
     const fillDataArray = (data)=>{
         return data.docs.map((doc)=> ({...doc.data(),id:doc.id}))
@@ -99,7 +100,7 @@ const FirebaseList = () => {
     const addRecord = (val) =>{
         FirebaseService.addBanco(val)
         setSuccess(true) 
-        getFirst()       
+        setUpdate(!update)       
     }
 
     const handleCloseAlert = (event, reason) => {
@@ -107,7 +108,6 @@ const FirebaseList = () => {
     };
 
     const handleRemove = (data) =>{
-        console.log(data)
         setOpen(true)
         setId(data)
     };
@@ -118,7 +118,7 @@ const FirebaseList = () => {
         if (data.length===1){
             setPage(page-1)
         }else{
-            getFirst()
+            setUpdate(!update)    
         } 
     }
 
