@@ -15,7 +15,7 @@ const useStyles = makeStyles({
         display:'flex',
         flexDirection:'column',
         padding:10,
-        gap:5
+        gap:20
 
     },
     mensaje:{
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     wrapBotones:{
         display:'flex',
         flexDirection:'row',
-        gap:5,
+        gap:10,
         justifyContent:'center'
     },
 });
