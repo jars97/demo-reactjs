@@ -1,5 +1,5 @@
 import db from '../googlefirebase/FirebaseDb'
-import {collection,getDocs,query, orderBy, startAfter, limit,addDoc,deleteDoc,doc,endBefore,limitToLast } from "@firebase/firestore";
+import {collection,getDocs,query, orderBy, startAfter, limit,addDoc,deleteDoc,doc,endBefore,limitToLast,updateDoc } from "@firebase/firestore";
 
 const rest='bancos';
 
@@ -54,8 +54,15 @@ const deleteBanco = async (data) =>{
     await deleteDoc(doc(db, rest,data.id));
 }
 
+const updateBanco = async (data) =>{
+    return await updateDoc(doc(db, rest,data.id), {
+        codigo: parseInt(data.codigo,10),
+        name: data.name
+    });
+}
+
 const FirebaseService ={
-    getBancos,addBanco,deleteBanco,getFirst,getAll,getNextPage,getPreviusPage
+    getBancos,addBanco,deleteBanco,getFirst,getAll,getNextPage,getPreviusPage,updateBanco
 }
 
 export default FirebaseService;

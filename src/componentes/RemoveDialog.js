@@ -16,7 +16,7 @@ const RemoveDialog = (props) => {
 
     
     const handleYes = () => {
-        props.removeRecord()
+        props.onRemove()
         props.setOpen(false);
     };
 

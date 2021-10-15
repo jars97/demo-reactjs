@@ -12,6 +12,7 @@ import { withStyles,makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import TableHeader from '../componentes/TableHeader';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import RemoveDialog from '../componentes/RemoveDialog';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -19,6 +20,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import FirebaseService from './FirebaseService';
 import AddRecord from './AddRecord'
 import '../index.css'
+import EditDialog from '../componentes/EditDialog'
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -59,6 +61,8 @@ const FirebaseList = () => {
     const [success, setSuccess] = useState(false);
     const [id, setId] = useState({});
     const [update,setUpdate]=useState(false)
+    const [openEdit, setOpenEdit] = useState(false);
+    const [rowEdit, setRowEdit] = useState({});
 
     useEffect(() => {
         const getFirst = async () =>  {
@@ -122,6 +126,19 @@ const FirebaseList = () => {
         } 
     }
 
+    const handleEdit = (data) =>{
+        setRowEdit(data)
+        setOpenEdit(true)
+        
+    };
+
+    const saveRecord = (data) =>{
+        FirebaseService.updateBanco(data)
+        setSuccess(true) 
+        setUpdate(!update) 
+    }
+  
+
     const headers=['Codigo','Descripción','Opciones'];
       
     return(
@@ -139,7 +156,10 @@ const FirebaseList = () => {
                                     <TableCell>{row.codigo}</TableCell>
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell >
-                                      <IconButton size="small" color="secondary" aria-label="Eliminar" onClick={() => handleRemove(row)}>
+                                        <IconButton size="small" color="primary" aria-label="Editar" onClick={() => handleEdit(row)} >
+                                            <EditIcon/>
+                                        </IconButton>
+                                      <IconButton size="small" color="secondary" aria-label="Eliminar" onClick={() => handleRemove(row.id)}>
                                         <DeleteIcon />
                                       </IconButton>
                                     </TableCell>
@@ -160,9 +180,10 @@ const FirebaseList = () => {
                 onRowsPerPageChange={handleChangeRowsPerPage} 
                 
             />
-            <RemoveDialog open={open} setOpen={setOpen} removeRecord={removeRecord}></RemoveDialog>
+            <RemoveDialog open={open} setOpen={setOpen} onRemove={removeRecord}></RemoveDialog>
+            <EditDialog open={openEdit} setOpen={setOpenEdit} rowEdit={rowEdit} onSave={saveRecord} ></EditDialog>
           </Paper>
-          <Snackbar open={success} autoHideDuration={2000} onClose={handleCloseAlert}>
+          <Snackbar open={success} autoHideDuration={2000} onClose={handleCloseAlert} >
               <Alert onClose={handleCloseAlert} severity="success">
               Operación extiosa!
               </Alert>
