@@ -180,8 +180,8 @@ const FirebaseList = () => {
                 onRowsPerPageChange={handleChangeRowsPerPage} 
                 
             />
-            <RemoveDialog open={open} setOpen={setOpen} onRemove={removeRecord}></RemoveDialog>
-            <EditDialog open={openEdit} setOpen={setOpenEdit} rowEdit={rowEdit} onSave={saveRecord} ></EditDialog>
+            <RemoveDialog open={open} setOpen={setOpen} onRemove={removeRecord}/>
+            <EditDialog open={openEdit} setOpen={setOpenEdit} rowEdit={rowEdit} onSave={saveRecord} />
           </Paper>
           <Snackbar open={success} autoHideDuration={2000} onClose={handleCloseAlert} >
               <Alert onClose={handleCloseAlert} severity="success">
