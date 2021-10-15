@@ -1,18 +1,14 @@
 
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button'; 
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import { useForm } from "react-hook-form";
 import '../App.css';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { PinDropSharp } from '@material-ui/icons';
-import React, { useState, useEffect,reset } from "react";
+import React, { useEffect } from "react";
 
 const useStyles = makeStyles({  
     formulario:{
@@ -37,7 +33,7 @@ const useStyles = makeStyles({
 const EditDialog = (props) => {
     const { register, formState: { errors }, handleSubmit,reset } = useForm();
     const classes = useStyles();
-    const [currentRecord, setCurrentRecord] = useState({});
+    
 
     const handleClose = () => {
         props.setOpen(false)
