@@ -143,8 +143,9 @@ const FirebaseList = () => {
       
     return(
         <div className={classes.root}>
-          <Paper >
             <h1>Listado de los Bancos</h1>
+          <Paper >
+            
             <AddRecord addRecord={addRecord}/>
             <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table" size="small">
